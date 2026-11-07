@@ -62,7 +62,7 @@
       margin-inline: auto;
     }
 
-    /* ---------- Welcome screen ---------- */
+    /* ---------- Welcome warning ---------- */
 
     .welcome {
       position: fixed;
@@ -73,56 +73,74 @@
       padding: 24px;
       overflow: auto;
       background: var(--paper);
+      animation: warn-flash 1.2s steps(1, end) 1;
       transition: transform .8s cubic-bezier(.7, 0, .2, 1);
     }
 
     .welcome.is-leaving { transform: translateY(-100%); }
 
-    .welcome-inner {
+    @keyframes warn-flash {
+      0%, 40%, 80% { background: #ffe446; }
+      20%, 60%, 100% { background: var(--paper); }
+    }
+
+    .warn-card {
+      position: relative;
+      width: min(560px, 100%);
+      overflow: hidden;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      background: var(--paper);
+      box-shadow: 8px 8px 0 var(--ink);
+      text-align: center;
+      animation: warn-shake .5s ease 1;
+    }
+
+    @keyframes warn-shake {
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(3px); }
+    }
+
+    .warn-stripes {
+      height: 14px;
+      border-bottom: 3px solid var(--ink);
+      background: repeating-linear-gradient(-45deg, #ffe446 0 14px, #2b2300 14px 28px);
+    }
+
+    .warn-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-bottom: 3px solid var(--ink);
+      background: #ffe446;
+      color: #2b2300;
+      font-size: 14px;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .warn-bar svg { flex: none; }
+
+    .warn-body {
       display: grid;
       justify-items: center;
-      gap: 16px;
-      max-width: 560px;
-      text-align: center;
-    }
-
-    .welcome-art {
-      position: relative;
-      width: min(300px, 62vw);
-      aspect-ratio: 478 / 512;
-      margin-bottom: 8px;
-    }
-
-    .welcome-art::before {
-      content: "";
-      position: absolute;
-      inset: 4% -14% -4%;
-      border-radius: 50%;
-      background: color-mix(in srgb, var(--accent) 24%, var(--paper));
-    }
-
-    .welcome-art img {
-      position: relative;
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      animation: float 4.2s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      50% { transform: translateY(-10px); }
+      gap: 14px;
+      padding: clamp(28px, 6vw, 44px) clamp(20px, 5vw, 40px) clamp(30px, 6vw, 40px);
     }
 
     .welcome-title {
       margin: 0;
-      font-size: clamp(44px, 9vw, 76px);
+      font-size: clamp(32px, 6.4vw, 54px);
       font-weight: 800;
       letter-spacing: -.085em;
-      line-height: 1;
+      line-height: 1.06;
     }
 
     .welcome-title .serif-accent {
+      display: block;
       color: var(--accent);
       font-family: var(--serif);
       font-weight: 400;
@@ -131,7 +149,6 @@
     }
 
     .welcome-sub {
-      max-width: 380px;
       margin: 0;
       color: var(--muted);
       font-size: 15px;
@@ -142,7 +159,7 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
       padding: 15px 30px;
       border: 1px solid rgba(42, 35, 45, .12);
       border-radius: 18px;
@@ -174,10 +191,21 @@
     }
 
     .welcome-hint {
-      margin: 6px 0 0;
+      margin: 0;
       color: var(--muted);
       font-size: 12px;
       font-weight: 700;
+    }
+
+    .warn-progress {
+      height: 6px;
+      background: var(--accent);
+      transform-origin: left;
+      animation: warn-drain 5s linear 1.2s forwards;
+    }
+
+    @keyframes warn-drain {
+      to { transform: scaleX(0); }
     }
 
     /* ---------- Header ---------- */
@@ -876,18 +904,27 @@
 </head>
 
 <body>
-  <!-- Welcome screen. The image file welcome.png must sit next to this HTML file. -->
-  <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
-    <div class="welcome-inner">
-      <div class="welcome-art">
-        <img src="welcome.png" alt="Illustrated portrait of Tahniyat" width="478" height="512">
+  <!-- Welcome warning. Shows first, then opens the portfolio. -->
+  <div class="welcome" id="welcome" role="alertdialog" aria-modal="true" aria-labelledby="welcome-title" aria-describedby="welcome-sub">
+    <div class="warn-card">
+      <div class="warn-stripes" aria-hidden="true"></div>
+      <div class="warn-bar">
+        <svg width="24" height="22" viewBox="0 0 24 22" aria-hidden="true">
+          <path d="M12 1.5 23 20.5H1z" fill="#2b2300" stroke="#2b2300" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M12 8v6" stroke="#ffe446" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="12" cy="17" r="1.4" fill="#ffe446"/>
+        </svg>
+        <span>Warning</span>
       </div>
-      <h2 class="welcome-title" id="welcome-title"><em class="serif-accent">Hi, you've been caught looking.</em> Good, have a look around.</h2>
-      <p class="welcome-sub">No manual.</p>
-      <button class="start-button" id="start-button" type="button">
-        Start <span aria-hidden="true">↵</span>
-      </button>
-      <p class="welcome-hint">or press Enter</p>
+      <div class="warn-body">
+        <h2 class="welcome-title" id="welcome-title"><em class="serif-accent">Hi, you’ve been caught looking.</em> Good, have a look around.</h2>
+        <p class="welcome-sub" id="welcome-sub">No manual.</p>
+        <button class="start-button" id="start-button" type="button">
+          Start <span aria-hidden="true">↵</span>
+        </button>
+        <p class="welcome-hint">or press Enter</p>
+      </div>
+      <div class="warn-progress" aria-hidden="true"></div>
     </div>
   </div>
 
@@ -977,7 +1014,7 @@
             data-sequence="8" data-theme="lime" data-action="random"
             aria-label="O: Random pick, opens a random case study">
             <span class="key-letter">O</span>
-            <span class="key-caption">Surprise me</span>
+            <span class="key-caption">Random pick</span>
           </button>
 
           <a class="key key-enter" data-sequence="9" data-theme="sun" href="#contact"
@@ -1081,6 +1118,7 @@
       let sequenceTimer = null;
       let autoStopped = false;
       let welcomeClosed = false;
+      let welcomeTimer = null;
       let toastTimer = null;
       let celebrated = false;
       const found = new Set();
@@ -1510,6 +1548,7 @@
       function enterSite() {
         if (welcomeClosed) return;
         welcomeClosed = true;
+        window.clearTimeout(welcomeTimer);
 
         lockTargets.forEach((el) => { el.inert = false; });
         root.classList.remove("is-locked");
@@ -1524,6 +1563,7 @@
       }
 
       startButton.addEventListener("click", enterSite);
+      welcomeTimer = window.setTimeout(enterSite, 6500);
 
       document.addEventListener("keydown", (event) => {
         if (!welcomeClosed && event.key === "Enter") {
