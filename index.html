@@ -152,9 +152,7 @@
       line-height: 1.85;
     }
 
-    .keyboard-section {
-      padding: 5px 0 0;
-    }
+    .keyboard-section { padding: 5px 0 0; }
 
     .keyboard-stage {
       width: min(948px, 100%);
@@ -234,15 +232,15 @@
       height: 51.6%;
     }
 
-    .key-p    { left: 7.7%; top: 0; }
-    .key-o-top{ left: 23.1%; top: 0; }
-    .key-r    { left: 38.5%; top: 0; }
-    .key-t    { left: 53.9%; top: 0; }
-    .key-f    { left: 0; top: 44.55%; }
-    .key-o-low{ left: 15.4%; top: 44.55%; }
-    .key-l    { left: 30.8%; top: 44.55%; }
-    .key-i    { left: 46.2%; top: 44.55%; }
-    .key-o-end{ left: 61.2%; top: 44.55%; }
+    .key-p     { left: 7.7%; top: 0; }
+    .key-o-top { left: 23.1%; top: 0; }
+    .key-r     { left: 38.5%; top: 0; }
+    .key-t     { left: 53.9%; top: 0; }
+    .key-f     { left: 0; top: 44.55%; }
+    .key-o-low { left: 15.4%; top: 44.55%; }
+    .key-l     { left: 30.8%; top: 44.55%; }
+    .key-i     { left: 46.2%; top: 44.55%; }
+    .key-o-end { left: 61.2%; top: 44.55%; }
 
     .key-enter {
       left: 77%;
@@ -258,9 +256,7 @@
         inset 0 2px 0 rgba(255, 255, 255, .7);
     }
 
-    .key-enter .key-letter {
-      font-size: clamp(34px, 6vw, 68px);
-    }
+    .key-enter .key-letter { font-size: clamp(34px, 6vw, 68px); }
 
     .marquee {
       overflow: hidden;
@@ -484,9 +480,7 @@
       .contact-inner { width: calc(100% - 40px); }
 
       .site-header { min-height: 76px; }
-
       .wordmark { font-size: 22px; }
-
       .site-nav { gap: 15px; }
 
       .site-nav a,
@@ -513,7 +507,6 @@
 
       .hero-note { max-width: 400px; }
       .hero-intro { max-width: 510px; font-size: 14px; }
-
       .key-caption { font-size: clamp(7px, 1.8vw, 10px); }
 
       .contact-layout {
@@ -522,7 +515,6 @@
       }
 
       .contact-section h2 { font-size: clamp(48px, 10vw, 68px); }
-
       .contact-meta { margin-top: 48px; }
     }
 
@@ -536,8 +528,6 @@
       .wordmark { font-size: 20px; }
 
       h1 { font-size: clamp(39px, 10vw, 46px); }
-
-      .keyboard-stage { width: 100%; }
 
       .key {
         border-radius: 9px;
@@ -562,6 +552,7 @@
       .key-caption { font-size: 7px; letter-spacing: 0; }
       .key-enter .key-letter { font-size: clamp(27px, 8vw, 36px); }
       .marquee { margin-top: 32px; }
+
       .site-footer { flex-direction: column; }
     }
 
@@ -618,41 +609,59 @@
         <div class="keyboard" aria-label="Portfolio navigation keyboard">
           <button class="key key-p" style="--base:#ffb7d5;--face:#d94f8a" type="button"
             data-sequence="0" data-open-dialog="work" aria-label="P — Selected work">
-            <span class="key-letter">P</span><span class="key-caption">Selected work</span>
+            <span class="key-letter">P</span>
+            <span class="key-caption">Selected work</span>
           </button>
+
           <button class="key key-o-top" style="--base:#c8b6ff;--face:#7153c7" type="button"
             data-sequence="1" data-open-dialog="about" aria-label="O — About me">
-            <span class="key-letter">O</span><span class="key-caption">About me</span>
+            <span class="key-letter">O</span>
+            <span class="key-caption">About me</span>
           </button>
+
           <button class="key key-r" style="--base:#b9f2df;--face:#2caa85" type="button"
             data-sequence="2" data-open-dialog="process" aria-label="R — My process">
-            <span class="key-letter">R</span><span class="key-caption">My process</span>
+            <span class="key-letter">R</span>
+            <span class="key-caption">My process</span>
           </button>
+
           <button class="key key-t" style="--base:#ffd98e;--face:#d28a24" type="button"
             data-sequence="3" data-open-dialog="approach" aria-label="T — What I do">
-            <span class="key-letter">T</span><span class="key-caption">What I do</span>
+            <span class="key-letter">T</span>
+            <span class="key-caption">What I do</span>
           </button>
+
           <button class="key key-f" style="--base:#a9ddff;--face:#3886c9" type="button"
             data-sequence="4" data-open-dialog="work" aria-label="F — Explore selected work">
-            <span class="key-letter">F</span><span class="key-caption">Explore</span>
+            <span class="key-letter">F</span>
+            <span class="key-caption">Explore</span>
           </button>
+
           <button class="key key-o-low" style="--base:#f4b8ff;--face:#a34cbf" type="button"
-            data-sequence="5" data-open-dialog="about" aria-label="O — A little about me">
-            <span class="key-letter">O</span><span class="key-caption">A little about me</span>
+            data-sequence="5" data-open-dialog="about" aria-label="O — My story">
+            <span class="key-letter">O</span>
+            <span class="key-caption">My story</span>
           </button>
+
           <button class="key key-l" style="--base:#ffc3a0;--face:#d96c44" type="button"
             data-sequence="6" data-open-dialog="process" aria-label="L — The process">
-            <span class="key-letter">L</span><span class="key-caption">The process</span>
+            <span class="key-letter">L</span>
+            <span class="key-caption">The process</span>
           </button>
+
           <button class="key key-i" style="--base:#c6d7ff;--face:#5a78c9" type="button"
             data-sequence="7" data-open-dialog="approach" aria-label="I — My approach">
-            <span class="key-letter">I</span><span class="key-caption">My approach</span>
+            <span class="key-letter">I</span>
+            <span class="key-caption">My approach</span>
           </button>
+
           <a class="key key-o-end" style="--base:#d9f28f;--face:#7aa52d"
             data-sequence="8" href="mailto:tahniyatfatima15@gmail.com"
             aria-label="O — Contact me">
-            <span class="key-letter">O</span><span class="key-caption">Contact me</span>
+            <span class="key-letter">O</span>
+            <span class="key-caption">Contact me</span>
           </a>
+
           <a class="key key-enter" data-sequence="9"
             href="mailto:tahniyatfatima15@gmail.com" aria-label="Enter — Let’s talk">
             <span class="key-letter" aria-hidden="true">↵</span>
@@ -674,7 +683,10 @@
         <div class="contact-layout">
           <div>
             <p class="contact-kicker">Have a good one in mind?</p>
-            <h2 id="contact-title"><span>Good work</span><span>starts with a clear problem.</span></h2>
+            <h2 id="contact-title">
+              <span>Good work</span>
+              <span>starts with a clear problem.</span>
+            </h2>
           </div>
 
           <div>
@@ -846,7 +858,6 @@
         if (event.target === dialog) dialog.close();
       });
 
-      // Keep the configured address in one place if contact links are updated later.
       document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
         link.href = `mailto:${email}`;
       });
@@ -877,4 +888,4 @@
   </script>
 </body>
 </html>
-```
+            
