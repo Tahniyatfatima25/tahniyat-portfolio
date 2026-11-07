@@ -1,4 +1,3 @@
-```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,20 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f8f5ef">
   <meta name="description" content="Tahniyat Fatima builds products and automation that fix broken workflows.">
-  <title>Tahniyat Fatima — Products &amp; Automation</title>
+  <title>Tahniyat Fatima | Products &amp; Automation</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <noscript><style>.welcome { display: none !important; }</style></noscript>
+
   <style>
     :root {
       color-scheme: light;
+
+      /* Theme tokens. JS overwrites these when a key is pressed. */
       --paper: #f8f5ef;
       --ink: #29252b;
-      --muted: #6b6469;
-      --pink: #d96c9c;
-      --line: rgba(41, 37, 43, .16);
+      --accent: #d96c9c;
+      --deep: #2f2542;
+      --marquee-bg: #ffdfa0;
+      --marquee-ink: #8b4d20;
+
+      --muted: color-mix(in srgb, var(--ink) 68%, var(--paper));
+      --line: color-mix(in srgb, var(--ink) 16%, transparent);
+      --tint: color-mix(in srgb, var(--accent) 12%, var(--paper));
+
       --serif: "DM Serif Display", Georgia, serif;
       --sans: "Manrope", "Arial", sans-serif;
       --page-width: 1240px;
@@ -30,7 +39,11 @@
     html {
       scroll-behavior: smooth;
       background: var(--paper);
+      transition: background-color .5s ease;
     }
+
+    html.is-locked,
+    html.is-locked body { overflow: hidden; }
 
     body {
       margin: 0;
@@ -38,6 +51,7 @@
       background: var(--paper);
       font-family: var(--sans);
       -webkit-font-smoothing: antialiased;
+      transition: background-color .5s ease, color .5s ease;
     }
 
     a { color: inherit; }
@@ -47,6 +61,126 @@
       width: min(var(--page-width), calc(100% - 80px));
       margin-inline: auto;
     }
+
+    /* ---------- Welcome screen ---------- */
+
+    .welcome {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      overflow: auto;
+      background: var(--paper);
+      transition: transform .8s cubic-bezier(.7, 0, .2, 1);
+    }
+
+    .welcome.is-leaving { transform: translateY(-100%); }
+
+    .welcome-inner {
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      max-width: 560px;
+      text-align: center;
+    }
+
+    .welcome-art {
+      position: relative;
+      width: min(300px, 62vw);
+      aspect-ratio: 478 / 512;
+      margin-bottom: 8px;
+    }
+
+    .welcome-art::before {
+      content: "";
+      position: absolute;
+      inset: 4% -14% -4%;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 24%, var(--paper));
+    }
+
+    .welcome-art img {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      animation: float 4.2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-10px); }
+    }
+
+    .welcome-title {
+      margin: 0;
+      font-size: clamp(44px, 9vw, 76px);
+      font-weight: 800;
+      letter-spacing: -.085em;
+      line-height: 1;
+    }
+
+    .welcome-title .serif-accent {
+      color: var(--accent);
+      font-family: var(--serif);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -.055em;
+    }
+
+    .welcome-sub {
+      max-width: 380px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .start-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 15px 30px;
+      border: 1px solid rgba(42, 35, 45, .12);
+      border-radius: 18px;
+      color: #8e6600;
+      background: #ffe446;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow:
+        0 6px 0 #d7a900,
+        0 10px 18px rgba(62, 44, 58, .12),
+        inset 0 2px 0 rgba(255, 255, 255, .7);
+      transition: transform .13s ease, box-shadow .13s ease;
+    }
+
+    .start-button:hover,
+    .start-button:focus-visible {
+      outline: none;
+      transform: translateY(5px);
+      box-shadow:
+        0 1px 0 #d7a900,
+        0 4px 9px rgba(62, 44, 58, .11),
+        inset 0 2px 0 rgba(255, 255, 255, .7);
+    }
+
+    .start-button:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 4px;
+    }
+
+    .welcome-hint {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ---------- Header ---------- */
 
     .site-header {
       min-height: 92px;
@@ -64,7 +198,7 @@
       text-decoration: none;
     }
 
-    .wordmark span { color: var(--pink); }
+    .wordmark span { color: var(--accent); transition: color .5s ease; }
 
     .site-nav {
       display: flex;
@@ -86,13 +220,15 @@
     }
 
     .site-nav a:hover,
-    .site-nav button:hover { color: var(--pink); }
+    .site-nav button:hover { color: var(--accent); }
 
     .site-nav .talk-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
+
+    /* ---------- Hero ---------- */
 
     .hero {
       padding: clamp(64px, 8vw, 112px) 0 66px;
@@ -116,14 +252,17 @@
       line-height: 1.055;
     }
 
+    h1:focus { outline: none; }
+
     h1 .headline-line { display: block; }
 
     h1 .serif-accent {
-      color: var(--pink);
+      color: var(--accent);
       font-family: var(--serif);
       font-weight: 400;
       font-style: italic;
       letter-spacing: -.055em;
+      transition: color .5s ease;
     }
 
     .hero-bottom {
@@ -147,10 +286,12 @@
 
     .hero-intro {
       margin: 0;
-      color: #524c52;
+      color: var(--muted);
       font-size: 15px;
       line-height: 1.85;
     }
+
+    /* ---------- Keyboard ---------- */
 
     .keyboard-section { padding: 5px 0 0; }
 
@@ -193,7 +334,8 @@
 
     .key:hover,
     .key:focus-visible,
-    .key.is-pressed {
+    .key.is-pressed,
+    .key.is-active {
       outline: none;
       filter: saturate(1.08);
       transform: translateY(6px);
@@ -203,8 +345,13 @@
         inset 0 2px 0 rgba(255, 255, 255, .68);
     }
 
+    .key.is-active {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+
     .key:focus-visible {
-      outline: 3px solid #35283d;
+      outline: 3px solid var(--ink);
       outline-offset: 4px;
     }
 
@@ -250,20 +397,95 @@
       border-radius: clamp(13px, 1.8vw, 22px);
       background: #ffe446;
       color: #8e6600;
+      --base: #ffe446;
       box-shadow:
         0 7px 0 #d7a900,
         0 11px 18px rgba(62, 44, 58, .12),
         inset 0 2px 0 rgba(255, 255, 255, .7);
     }
 
+    .key-enter:hover,
+    .key-enter:focus-visible,
+    .key-enter.is-pressed,
+    .key-enter.is-active {
+      box-shadow:
+        0 1px 0 #d7a900,
+        0 4px 9px rgba(62, 44, 58, .11),
+        inset 0 2px 0 rgba(255, 255, 255, .7);
+    }
+
     .key-enter .key-letter { font-size: clamp(34px, 6vw, 68px); }
+
+    /* ---------- Progress ---------- */
+
+    .hud {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .hud-dots {
+      display: flex;
+      gap: 9px;
+    }
+
+    .hud-dot {
+      width: 13px;
+      height: 13px;
+      border: 1.5px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      transition: background-color .25s ease, border-color .25s ease, transform .25s ease;
+    }
+
+    .hud-dot.is-found {
+      border-color: var(--dot);
+      background: var(--dot);
+      transform: scale(1.18);
+    }
+
+    .hud-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      z-index: 900;
+      max-width: calc(100% - 40px);
+      padding: 13px 22px;
+      border-radius: 999px;
+      color: var(--paper);
+      background: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 16px);
+      transition: opacity .3s ease, transform .3s ease;
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* ---------- Marquee ---------- */
 
     .marquee {
       overflow: hidden;
       margin-top: clamp(34px, 5vw, 60px);
       padding: 16px 0;
-      color: #8b4d20;
-      background: #ffdfa0;
+      color: var(--marquee-ink);
+      background: var(--marquee-bg);
+      transition: background-color .5s ease, color .5s ease;
     }
 
     .marquee-track {
@@ -285,12 +507,15 @@
       to { transform: translateX(-50%); }
     }
 
+    /* ---------- Contact ---------- */
+
     .contact-section {
       margin-top: clamp(72px, 10vw, 130px);
       padding: clamp(55px, 8vw, 100px) 0 28px;
       color: #f8f3f7;
-      background: #2f2542;
+      background: var(--deep);
       scroll-margin-top: 24px;
+      transition: background-color .5s ease;
     }
 
     .contact-inner {
@@ -305,15 +530,6 @@
       align-items: end;
     }
 
-    .contact-kicker {
-      margin: 0 0 18px;
-      color: #d9c8df;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-    }
-
     .contact-section h2 {
       max-width: 780px;
       margin: 0;
@@ -323,6 +539,8 @@
       line-height: .98;
       scroll-margin-top: 100px;
     }
+
+    .contact-section h2:focus { outline: none; }
 
     .contact-section h2 span { display: block; }
 
@@ -366,7 +584,7 @@
     }
 
     .copy-button:hover {
-      color: #2f2542;
+      color: var(--deep);
       background: #fff;
     }
 
@@ -399,7 +617,7 @@
 
     .site-footer {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 20px;
       padding-top: 23px;
       color: #c9bdcf;
@@ -408,12 +626,14 @@
 
     .site-footer p { margin: 0; }
 
+    /* ---------- Dialog ---------- */
+
     dialog {
       width: min(720px, calc(100% - 28px));
       max-height: min(82vh, 820px);
       padding: 0;
       overflow: auto;
-      border: 1px solid rgba(41, 37, 43, .15);
+      border: 1px solid var(--line);
       border-radius: 20px;
       color: var(--ink);
       background: var(--paper);
@@ -437,7 +657,7 @@
 
     .dialog-kicker {
       margin: 0 0 9px;
-      color: var(--pink);
+      color: var(--accent);
       font-size: 10px;
       font-weight: 800;
       letter-spacing: .15em;
@@ -466,7 +686,7 @@
       cursor: pointer;
     }
 
-    .dialog-close:hover { background: #eee8e0; }
+    .dialog-close:hover { background: var(--tint); }
 
     .dialog-section-label {
       margin: 26px 0 10px;
@@ -496,15 +716,15 @@
     }
 
     .project-link span:last-child {
-      color: var(--pink);
+      color: var(--accent);
       font-size: 17px;
     }
 
-    .project-link:hover { color: var(--pink); }
+    .project-link:hover { color: var(--accent); }
 
     .dialog-prose {
-      margin: 0;
-      color: #5d555d;
+      margin: 0 0 22px;
+      color: var(--muted);
       font-size: 15px;
       line-height: 1.85;
       white-space: pre-line;
@@ -512,7 +732,7 @@
 
     .contact-dialog-copy {
       margin: 0 0 20px;
-      color: #5d555d;
+      color: var(--muted);
       font-size: 15px;
       line-height: 1.75;
     }
@@ -540,7 +760,7 @@
     }
 
     .dialog-contact .copy-button:hover {
-      color: #fff;
+      color: var(--paper);
       background: var(--ink);
     }
 
@@ -625,7 +845,8 @@
 
       .key:hover,
       .key:focus-visible,
-      .key.is-pressed {
+      .key.is-pressed,
+      .key.is-active {
         transform: translateY(3px);
         box-shadow:
           0 1px 0 color-mix(in srgb, var(--base), #382e37 14%),
@@ -637,7 +858,7 @@
       .key-caption { font-size: 7px; letter-spacing: 0; }
       .key-enter .key-letter { font-size: clamp(27px, 8vw, 36px); }
       .marquee { margin-top: 32px; }
-      .site-footer { flex-direction: column; }
+      .hud-dots { gap: 6px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -655,6 +876,21 @@
 </head>
 
 <body>
+  <!-- Welcome screen. The image file welcome.png must sit next to this HTML file. -->
+  <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="welcome-inner">
+      <div class="welcome-art">
+        <img src="welcome.png" alt="Illustrated portrait of Tahniyat" width="478" height="512">
+      </div>
+      <h2 class="welcome-title" id="welcome-title"><em class="serif-accent">Welcome.</em> I’m Tahniyat.</h2>
+      <p class="welcome-sub">My portfolio is a keyboard. Every key opens something and changes the colors.</p>
+      <button class="start-button" id="start-button" type="button">
+        Start <span aria-hidden="true">↵</span>
+      </button>
+      <p class="welcome-hint">or press Enter</p>
+    </div>
+  </div>
+
   <header class="site-header page-shell">
     <a class="wordmark" href="#" aria-label="Tahniyat home">tahniyat<span>.</span></a>
 
@@ -671,7 +907,7 @@
     <section class="hero page-shell" aria-labelledby="hero-title">
       <p class="hero-kicker">Product thinking · Practical automation</p>
 
-      <h1 id="hero-title">
+      <h1 id="hero-title" tabindex="-1">
         <span class="headline-line">Hi, I’m Tahniyat.</span>
         <span class="headline-line">I fix <em class="serif-accent">broken workflows</em></span>
         <span class="headline-line">with products and automation.</span>
@@ -680,9 +916,8 @@
       <div class="hero-bottom">
         <p class="hero-note">I find where users quit, and build the fix.</p>
         <p class="hero-intro">
-          I find where a product loses its users, figure out why, and build the thing that fixes it.
-          I’ve done it three times on my own — a churn detector, a proof-of-work screening tool,
-          and a job-fit analyzer I’ve run across 15+ real openings. 
+          I’ve done it three times on my own: a churn detector, a proof-of-work screening tool,
+          and a job-fit analyzer I’ve run across 15+ real openings.
         </p>
       </div>
     </section>
@@ -691,66 +926,71 @@
       <div class="keyboard-stage">
         <div class="keyboard" aria-label="Portfolio navigation keyboard">
           <button class="key key-p" style="--base:#ffb7d5;--face:#d94f8a" type="button"
-            data-sequence="0" data-open-dialog="work" aria-label="P — Selected work">
+            data-sequence="0" data-theme="pink" data-open-dialog="projects" aria-label="P: Projects">
             <span class="key-letter">P</span>
-            <span class="key-caption">Selected work</span>
+            <span class="key-caption">Projects</span>
           </button>
 
           <button class="key key-o-top" style="--base:#c8b6ff;--face:#7153c7" type="button"
-            data-sequence="1" data-open-dialog="about" aria-label="O — About me">
+            data-sequence="1" data-theme="violet" data-open-dialog="origin" aria-label="O: Origin">
             <span class="key-letter">O</span>
-            <span class="key-caption">About me</span>
+            <span class="key-caption">Origin</span>
           </button>
 
           <button class="key key-r" style="--base:#b9f2df;--face:#2caa85" type="button"
-            data-sequence="2" data-open-dialog="process" aria-label="R — My process">
+            data-sequence="2" data-theme="mint" data-open-dialog="roles" aria-label="R: Roles">
             <span class="key-letter">R</span>
-            <span class="key-caption">My process</span>
+            <span class="key-caption">Roles</span>
           </button>
 
           <button class="key key-t" style="--base:#ffd98e;--face:#d28a24" type="button"
-            data-sequence="3" data-open-dialog="approach" aria-label="T — What I do">
+            data-sequence="3" data-theme="amber" data-open-dialog="toolkit" aria-label="T: Toolkit">
             <span class="key-letter">T</span>
-            <span class="key-caption">What I do</span>
+            <span class="key-caption">Toolkit</span>
           </button>
 
           <button class="key key-f" style="--base:#a9ddff;--face:#3886c9" type="button"
-            data-sequence="4" data-open-dialog="work" aria-label="F — Explore selected work">
+            data-sequence="4" data-theme="sky" data-open-dialog="fixfiles" aria-label="F: Fix files">
             <span class="key-letter">F</span>
-            <span class="key-caption">Explore</span>
+            <span class="key-caption">Fix files</span>
           </button>
 
           <button class="key key-o-low" style="--base:#f4b8ff;--face:#a34cbf" type="button"
-            data-sequence="5" data-open-dialog="about" aria-label="O — My story">
+            data-sequence="5" data-theme="orchid" data-open-dialog="process" aria-label="O: The loop">
             <span class="key-letter">O</span>
-            <span class="key-caption">My story</span>
+            <span class="key-caption">The loop</span>
           </button>
 
           <button class="key key-l" style="--base:#ffc3a0;--face:#d96c44" type="button"
-            data-sequence="6" data-open-dialog="process" aria-label="L — The process">
+            data-sequence="6" data-theme="coral" data-open-dialog="approach" aria-label="L: Lens">
             <span class="key-letter">L</span>
-            <span class="key-caption">The process</span>
+            <span class="key-caption">Lens</span>
           </button>
 
           <button class="key key-i" style="--base:#c6d7ff;--face:#5a78c9" type="button"
-            data-sequence="7" data-open-dialog="approach" aria-label="I — My approach">
+            data-sequence="7" data-theme="indigo" data-open-dialog="contact" aria-label="I: Inbox">
             <span class="key-letter">I</span>
-            <span class="key-caption">My approach</span>
+            <span class="key-caption">Inbox</span>
           </button>
 
-          <button class="key key-o-end" style="--base:#d9f28f;--face:#7aa52d"
-            data-sequence="8" data-open-dialog="contact" type="button"
-            aria-label="Contact Me">
+          <button class="key key-o-end" style="--base:#d9f28f;--face:#7aa52d" type="button"
+            data-sequence="8" data-theme="lime" data-action="random"
+            aria-label="O: Random pick, opens a random case study">
             <span class="key-letter">O</span>
-            <span class="key-caption">Contact me</span>
+            <span class="key-caption">Random pick</span>
           </button>
 
-          <a class="key key-enter" data-sequence="9" href="#contact"
-            data-scroll-contact aria-label="Enter — Let’s talk">
+          <a class="key key-enter" data-sequence="9" data-theme="sun" href="#contact"
+            data-scroll-contact aria-label="Enter: Let’s talk">
             <span class="key-letter" aria-hidden="true">↵</span>
-            <span class="key-caption">Enter / Let’s talk</span>
+            <span class="key-caption">Let’s talk</span>
           </a>
         </div>
+      </div>
+
+      <div class="hud">
+        <div class="hud-dots" id="hud-dots" aria-hidden="true"></div>
+        <p class="hud-text" id="hud-text">0 of 10 keys pressed</p>
       </div>
     </section>
 
@@ -765,7 +1005,6 @@
       <div class="contact-inner">
         <div class="contact-layout">
           <div>
-            <p class="contact-kicker">Have a good one in mind?</p>
             <h2 id="contact-title" tabindex="-1">
               <span>Got a messy workflow?</span>
               <span>Send it over.</span>
@@ -791,12 +1030,13 @@
         <p class="contact-meta">BASED IN INDIA · AVAILABLE IMMEDIATELY</p>
 
         <footer class="site-footer">
-          <p>built by Tahniyat Fatima</p>
           <p>no template. no team. just me and the keyboard.</p>
         </footer>
       </div>
     </section>
   </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <dialog id="portfolio-dialog" aria-labelledby="dialog-title">
     <div class="dialog-inner">
@@ -814,18 +1054,39 @@
   <script>
     (() => {
       const email = "tahniyatfatima15@gmail.com";
+      const linkedinUrl = "https://www.linkedin.com/in/tahniyat-f-8018082a3/";
+
+      const root = document.documentElement;
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
       const dialog = document.querySelector("#portfolio-dialog");
       const dialogTitle = document.querySelector("#dialog-title");
       const dialogKicker = document.querySelector("#dialog-kicker");
       const dialogContent = document.querySelector("#dialog-content");
       const closeButton = document.querySelector(".dialog-close");
       const contactHeading = document.querySelector("#contact-title");
+      const heroTitle = document.querySelector("#hero-title");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const welcome = document.querySelector("#welcome");
+      const startButton = document.querySelector("#start-button");
+      const lockTargets = document.querySelectorAll(".site-header, main");
+
+      const keys = [...document.querySelectorAll("[data-sequence]")];
+      const hudDots = document.querySelector("#hud-dots");
+      const hudText = document.querySelector("#hud-text");
+      const toast = document.querySelector("#toast");
 
       let returnFocusTo = null;
       let sequenceIndex = 0;
       let sequenceTimer = null;
-      let copyTimers = new WeakMap();
+      let autoStopped = false;
+      let welcomeClosed = false;
+      let toastTimer = null;
+      let celebrated = false;
+      const found = new Set();
+      const copyTimers = new WeakMap();
+
+      /* ---------- Content ---------- */
 
       const projects = {
         live: [
@@ -845,22 +1106,110 @@
       };
 
       const copy = {
+        origin: {
+          kicker: "Where it started",
+          title: "Origin",
+          text: "I’m Tahniyat, an early-career operator who’d rather ship the fix than write the doc. I started in edtech, in the chats where students got confused and quietly left. The same patterns kept showing up, so I started building tools to catch them: Silent Churn Detector, RightFit Verification Hub and a Job Fit Analyzer.",
+          linkedin: true
+        },
         about: {
           kicker: "A little about me",
           title: "About Me",
-          text: "I’m Tahniyat — an early-career operator who’d rather ship the fix than write the doc. I started in edtech, in the chats where students got confused and quietly left. The same patterns kept showing up, so I started building tools to catch them: Silent Churn Detector, RightFit Verification Hub and a Job Fit Analyzer.\n\nI build with Lovable, Replit, Zapier, Gemini and SQL — fast, live, in front of real users.\n\nNext, I want an early product seat (APM, Founder's Office or technical growth) where the job is to find the drop-off, build the fix and check that it worked."
+          text: "I’m Tahniyat, an early-career operator who’d rather ship the fix than write the doc. I started in edtech, in the chats where students got confused and quietly left. The same patterns kept showing up, so I started building tools to catch them: Silent Churn Detector, RightFit Verification Hub and a Job Fit Analyzer.\n\nI build with Lovable, Replit, Zapier, Gemini and SQL, fast, live, in front of real users.\n\nNext, I want an early product seat (APM, Founder’s Office or technical growth) where the job is to find the drop-off, build the fix and check that it worked.",
+          linkedin: true
+        },
+        roles: {
+          kicker: "What’s next",
+          title: "Roles",
+          text: "I want an early product seat (APM, Founder’s Office or technical growth) where the job is to find the drop-off, build the fix and check that it worked.\n\nBased in India. Available immediately."
+        },
+        toolkit: {
+          kicker: "What I build with",
+          title: "Toolkit",
+          text: "Lovable, Replit, Zapier, Gemini and SQL. Fast, live, in front of real users."
         },
         process: {
           kicker: "The process",
-          title: "My Process",
+          title: "The Loop",
           text: "I start with the real user friction, structure the problem, ship a useful first version, and follow through until the next action has an owner and a clear outcome."
         },
         approach: {
           kicker: "My approach",
-          title: "What I Do",
+          title: "Lens",
           text: "User insight, clear problem framing, fast prototypes, and operational follow-through. I care more about the system working than about the slide deck."
         }
       };
+
+      /* ---------- Themes (one per key) ---------- */
+
+      const themes = {
+        pink:   { paper: "#fff1f7", ink: "#34202b", accent: "#d94f8a", deep: "#4f1d36", mBg: "#ffd0e4", mInk: "#8a2b57" },
+        violet: { paper: "#f3efff", ink: "#2a2440", accent: "#7153c7", deep: "#2f2542", mBg: "#d9ccff", mInk: "#4a3496" },
+        mint:   { paper: "#eefaf5", ink: "#1d2e29", accent: "#1f8f6c", deep: "#12453a", mBg: "#bff0de", mInk: "#1d6f56" },
+        amber:  { paper: "#fff7e6", ink: "#33280f", accent: "#c27a16", deep: "#4a3210", mBg: "#ffdfa0", mInk: "#8b4d20" },
+        sky:    { paper: "#eef7ff", ink: "#1b2a38", accent: "#2f78bb", deep: "#14395a", mBg: "#bfe2ff", mInk: "#1f5c93" },
+        orchid: { paper: "#fbf0fd", ink: "#301b38", accent: "#a34cbf", deep: "#3f1a4d", mBg: "#f1c9fb", mInk: "#722a8a" },
+        coral:  { paper: "#fff1ea", ink: "#3a2018", accent: "#d0552c", deep: "#4d2012", mBg: "#ffd0b8", mInk: "#9a3f1d" },
+        indigo: { paper: "#eff3ff", ink: "#1f2640", accent: "#4a68bd", deep: "#1f2d5a", mBg: "#cbd8ff", mInk: "#34498f" },
+        lime:   { paper: "#f5fae6", ink: "#28330f", accent: "#6a8f22", deep: "#2c3d10", mBg: "#dff2a6", mInk: "#4c6a14" },
+        sun:    { paper: "#fffbe0", ink: "#332d0a", accent: "#b07f00", deep: "#3d3200", mBg: "#ffe446", mInk: "#6b4f00" }
+      };
+
+      function applyTheme(name) {
+        const theme = themes[name];
+        if (!theme) return;
+
+        root.style.setProperty("--paper", theme.paper);
+        root.style.setProperty("--ink", theme.ink);
+        root.style.setProperty("--accent", theme.accent);
+        root.style.setProperty("--deep", theme.deep);
+        root.style.setProperty("--marquee-bg", theme.mBg);
+        root.style.setProperty("--marquee-ink", theme.mInk);
+
+        if (themeMeta) themeMeta.setAttribute("content", theme.paper);
+      }
+
+      /* ---------- Progress ---------- */
+
+      keys.forEach((key) => {
+        const dot = document.createElement("span");
+        dot.className = "hud-dot";
+        dot.style.setProperty("--dot", key.style.getPropertyValue("--face").trim() || "#c9a800");
+        dot.dataset.dotFor = key.dataset.sequence;
+        hudDots.append(dot);
+      });
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 4500);
+      }
+
+      function markFound(key) {
+        const id = key.dataset.sequence;
+        found.add(id);
+
+        const dot = hudDots.querySelector(`[data-dot-for="${id}"]`);
+        if (dot) dot.classList.add("is-found");
+
+        const done = found.size === keys.length;
+        hudText.textContent = done
+          ? `All ${keys.length} keys pressed`
+          : `${found.size} of ${keys.length} keys pressed`;
+
+        if (done && !celebrated) {
+          celebrated = true;
+          showToast(`All ${keys.length} keys pressed. Now send me that messy workflow.`);
+        }
+      }
+
+      function setActive(key) {
+        keys.forEach((item) => item.classList.toggle("is-active", item === key));
+      }
+
+      /* ---------- Dialog helpers ---------- */
 
       function createProjectList(items) {
         const list = document.createElement("div");
@@ -887,6 +1236,13 @@
         return list;
       }
 
+      function createSectionLabel(text) {
+        const label = document.createElement("h3");
+        label.className = "dialog-section-label";
+        label.textContent = text;
+        return label;
+      }
+
       function createCopyButton() {
         const button = document.createElement("button");
         button.className = "copy-button";
@@ -905,6 +1261,24 @@
         return link;
       }
 
+      function createLinkedinRow() {
+        const profileLink = document.createElement("a");
+        profileLink.className = "project-link";
+        profileLink.href = linkedinUrl;
+        profileLink.target = "_blank";
+        profileLink.rel = "noopener noreferrer";
+
+        const label = document.createElement("span");
+        label.textContent = "Connect on LinkedIn";
+
+        const arrow = document.createElement("span");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.textContent = "↗";
+
+        profileLink.append(label, arrow);
+        return profileLink;
+      }
+
       function createContactDialog() {
         const section = document.createElement("div");
         section.className = "dialog-contact";
@@ -919,7 +1293,7 @@
 
         const linkedin = document.createElement("a");
         linkedin.className = "dialog-linkedin";
-        linkedin.href = "https://www.linkedin.com/in/tahniyat-f-8018082a3/";
+        linkedin.href = linkedinUrl;
         linkedin.target = "_blank";
         linkedin.rel = "noopener noreferrer";
         linkedin.textContent = "LinkedIn ↗";
@@ -938,27 +1312,32 @@
         if (kind === "work") {
           dialogKicker.textContent = "Explore";
           dialogTitle.textContent = "Selected Work";
-
-          const liveLabel = document.createElement("h3");
-          liveLabel.className = "dialog-section-label";
-          liveLabel.textContent = "Live prototypes";
-
-          const caseLabel = document.createElement("h3");
-          caseLabel.className = "dialog-section-label";
-          caseLabel.textContent = "Case studies";
-
           dialogContent.append(
-            liveLabel,
+            createSectionLabel("Live prototypes"),
             createProjectList(projects.live),
-            caseLabel,
+            createSectionLabel("Case studies"),
             createProjectList(projects.cases)
           );
           return;
         }
 
+        if (kind === "projects") {
+          dialogKicker.textContent = "Live prototypes";
+          dialogTitle.textContent = "Projects";
+          dialogContent.append(createProjectList(projects.live));
+          return;
+        }
+
+        if (kind === "fixfiles") {
+          dialogKicker.textContent = "Case studies";
+          dialogTitle.textContent = "Fix Files";
+          dialogContent.append(createProjectList(projects.cases));
+          return;
+        }
+
         if (kind === "contact") {
           dialogKicker.textContent = "Say hello";
-          dialogTitle.textContent = "Contact";
+          dialogTitle.textContent = "Inbox";
           dialogContent.append(createContactDialog());
           return;
         }
@@ -972,24 +1351,10 @@
         paragraph.textContent = content.text;
         dialogContent.append(paragraph);
 
-        if (kind === "about") {
-          const profileLink = document.createElement("a");
-          profileLink.className = "project-link";
-          profileLink.href = "https://www.linkedin.com/in/tahniyat-f-8018082a3/";
-          profileLink.target = "_blank";
-          profileLink.rel = "noopener noreferrer";
-
-          const label = document.createElement("span");
-          label.textContent = "Connect on LinkedIn";
-
-          const arrow = document.createElement("span");
-          arrow.setAttribute("aria-hidden", "true");
-          arrow.textContent = "↗";
-
-          profileLink.append(label, arrow);
-          dialogContent.append(profileLink);
-        }
+        if (content.linkedin) dialogContent.append(createLinkedinRow());
       }
+
+      /* ---------- Auto key-press hint ---------- */
 
       function pauseKeySequence() {
         if (sequenceTimer !== null) {
@@ -997,10 +1362,32 @@
           sequenceTimer = null;
         }
 
-        document.querySelectorAll("[data-sequence]").forEach((key) => {
-          key.classList.remove("is-pressed");
-        });
+        keys.forEach((key) => key.classList.remove("is-pressed"));
       }
+
+      function scheduleKeyPress(delay) {
+        if (reducedMotion.matches || dialog.open || autoStopped || !welcomeClosed) return;
+
+        sequenceTimer = window.setTimeout(() => {
+          if (dialog.open || autoStopped) return;
+
+          keys.forEach((key) => key.classList.remove("is-pressed"));
+
+          const key = keys[sequenceIndex];
+          if (key) key.classList.add("is-pressed");
+
+          sequenceIndex = (sequenceIndex + 1) % keys.length;
+          const pauseAfterEnter = sequenceIndex === 0;
+          scheduleKeyPress(pauseAfterEnter ? 1050 : 390);
+        }, delay);
+      }
+
+      function stopAutoSequence() {
+        autoStopped = true;
+        pauseKeySequence();
+      }
+
+      /* ---------- Dialog open / close ---------- */
 
       function openDialog(kind, trigger) {
         returnFocusTo = trigger || document.activeElement;
@@ -1023,12 +1410,30 @@
           returnFocusTo.focus();
         }
 
-        if (!reducedMotion.matches) scheduleKeyPress(250);
+        scheduleKeyPress(250);
       });
 
       dialog.addEventListener("click", (event) => {
         if (event.target === dialog) dialog.close();
       });
+
+      /* ---------- Key presses: theme, progress, random pick ---------- */
+
+      keys.forEach((key) => {
+        key.addEventListener("click", () => {
+          stopAutoSequence();
+          applyTheme(key.dataset.theme);
+          setActive(key);
+          markFound(key);
+
+          if (key.dataset.action === "random") {
+            const [, url] = projects.cases[Math.floor(Math.random() * projects.cases.length)];
+            window.open(url, "_blank", "noopener,noreferrer");
+          }
+        });
+      });
+
+      /* ---------- Scroll to contact ---------- */
 
       function scrollToContact(event) {
         event.preventDefault();
@@ -1044,6 +1449,8 @@
       document.querySelectorAll("[data-scroll-contact]").forEach((link) => {
         link.addEventListener("click", scrollToContact);
       });
+
+      /* ---------- Copy email ---------- */
 
       function selectEmailText(emailLink) {
         const selection = window.getSelection();
@@ -1094,28 +1501,37 @@
         if (button) copyEmail(button);
       });
 
-      function scheduleKeyPress(delay) {
-        if (reducedMotion.matches || dialog.open) return;
+      /* ---------- Welcome screen ---------- */
 
-        sequenceTimer = window.setTimeout(() => {
-          if (dialog.open) return;
+      lockTargets.forEach((el) => { el.inert = true; });
+      root.classList.add("is-locked");
+      startButton.focus();
 
-          const keys = [...document.querySelectorAll("[data-sequence]")];
-          keys.forEach((key) => key.classList.remove("is-pressed"));
+      function enterSite() {
+        if (welcomeClosed) return;
+        welcomeClosed = true;
 
-          const key = keys[sequenceIndex];
-          if (key) key.classList.add("is-pressed");
+        lockTargets.forEach((el) => { el.inert = false; });
+        root.classList.remove("is-locked");
+        welcome.classList.add("is-leaving");
 
-          sequenceIndex = (sequenceIndex + 1) % keys.length;
-          const pauseAfterEnter = sequenceIndex === 0;
-          scheduleKeyPress(pauseAfterEnter ? 1050 : 390);
-        }, delay);
+        window.setTimeout(() => {
+          welcome.remove();
+          heroTitle.focus({ preventScroll: true });
+        }, reducedMotion.matches ? 0 : 850);
+
+        scheduleKeyPress(1400);
       }
 
-      if (!reducedMotion.matches) scheduleKeyPress(650);
+      startButton.addEventListener("click", enterSite);
+
+      document.addEventListener("keydown", (event) => {
+        if (!welcomeClosed && event.key === "Enter") {
+          event.preventDefault();
+          enterSite();
+        }
+      });
     })();
   </script>
 </body>
 </html>
-```
-            
